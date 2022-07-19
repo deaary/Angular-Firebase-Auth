@@ -1,0 +1,41 @@
+<main class="main-container">
+    <form action="" id="main-form" [formGroup]="todoForm" (ngSubmit)="create()">
+      <mat-form-field appearance="outline">
+        <mat-label>Nova Tarefa</mat-label>
+        <input
+          type="text"
+          matInput
+          placeholder="Digite alguma coisa..."
+          autocomplete="off"
+          formControlName="body"
+        >
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" [disabled]="todoForm.invalid">
+        <mat-icon>add</mat-icon>
+      </button>
+    </form>
+    <section class="title-wrapper">
+      <h1>Suas tarefas</h1>
+      <hr>
+    </section>
+    <section class="todos">
+      <mat-card *ngFor="let todo of todos">
+        <mat-card-content class="todo-content">
+          <p
+            class="todo-title"
+            [ngClass]="{
+              done: todo.done
+            }"
+          >{{ todo.body }}</p>
+          <mat-checkbox matTooltip="Marcar como concluída" color="accent" [checked]="todo.done" (change)="toggleDone(todo)"></mat-checkbox>
+          <button mat-icon-button color="warn" matTooltip="Deletar tarefa" (click)="delete(todo)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-content>
+      </mat-card>
+    </section>
+  
+    <button mat-icon-button color="warn" id="signout" matTooltip="Sign out" matTooltipPosition="left" (click)="signOut()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </main>

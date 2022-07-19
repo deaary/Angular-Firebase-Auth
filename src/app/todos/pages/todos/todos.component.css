@@ -1,0 +1,51 @@
+main.main-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 0;
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  #main-form {
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+  }
+  
+  .todos {
+    flex-grow: 1;
+    width: 600px;
+    margin-top: 16px;
+    overflow-y: auto;
+  }
+  
+  .todos mat-card + mat-card {
+    margin-top: 16px;
+  }
+  
+  .title-wrapper {
+    width: 600px;
+  }
+  
+  .todo-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .todo-title {
+    margin: 0;
+    flex-grow: 1;
+  }
+  
+  .done {
+    text-decoration: line-through;
+  }
+  
+  #signout {
+    position: absolute;
+    right: 16px;
+    top: 16px;
+  }

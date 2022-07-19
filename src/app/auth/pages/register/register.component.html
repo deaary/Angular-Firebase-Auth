@@ -1,0 +1,38 @@
+<div class="grid-container">
+    <div class="image-container"></div>
+    <main class="login-container">
+      <h1>Sign up</h1>
+      <form action="" [formGroup]="loginForm" (ngSubmit)="register()">
+        <mat-form-field appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input
+            type="email"
+            placeholder="Seu e-mail aqui"
+            matInput
+            autocomplete="off"
+            formControlName="email"
+            name="email"
+          >
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Senha</mat-label>
+          <input
+            type="password"
+            placeholder="Sua senha aqui"
+            matInput
+            autocomplete="off"
+            formControlName="password"
+            name="password"
+          >
+        </mat-form-field>
+        <button mat-stroked-button color="primary" type="submit" [disabled]="loginForm.invalid">
+          <mat-icon>login</mat-icon>
+        </button>
+        <button mat-stroked-button color="primary" type="button" matTooltip="Cadastrar com o Google" id="login-google" (click)="signInWithGoogle()">
+          <img src="/assets/google.svg" alt="">
+        </button>
+      </form>
+  
+      <p>Já tem uma conta? <a routerLink="/auth/login">Entre</a></p>
+    </main>
+  </div>

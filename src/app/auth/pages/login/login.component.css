@@ -1,0 +1,38 @@
+.grid-container {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr 600px;
+  }
+  
+  .image-container {
+    background-image: url(/assets/login.gif);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 700px;
+  }
+  
+  .login-container {
+    border-left: 5px solid #9c27b0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 calc(16px * 4);
+    box-sizing: border-box;
+    flex-direction: column;
+  }
+  
+  .login-container form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  #login-google {
+    margin-top: 16px;
+  }
+  
+  #login-google img {
+    width: 24px;
+    height: 24px;
+  }
