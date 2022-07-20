@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { from, tap } from 'rxjs';
 import { Todo } from 'src/app/models/Todo';
 import { User } from 'src/app/models/User';
+import { GoogleAuthProvider } from 'firebase/auth'
+import { UntypedFormBuilder } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -26,19 +28,22 @@ export class AuthService {
     return this.authentication.authState
   }
 
-  signUpWithEmailAndPassword(email: string, password: string) {
-    // O from transformara a Promise que o metodo createUserWithEmailAndPassword retorna em um Observable
-    // O metodo createUserWithEmailAndPassword cadastra um novo usuario no firebase pelo e-mail e senha
-    return from(this.authentication.createUserWithEmailAndPassword(email, password))
-    .pipe(
-      tap((credentials) => {
-        // recuperar o uid do usuario
-        const uid = credentials.user?.uid as string
+  private saveUserData() {
+    return tap(async (credentials: firebase.default.auth.UserCredential) => {
+      // recuperar o uid do usuario
+      const uid = credentials.user?.uid as string
 
-        // recuperar o email do usuario
-        const email = credentials.user?.email as string
+      // recuperar o email do usuario
+      const email = credentials.user?.email as string
 
-        const todos: Todo[] = []
+      // SELECT * FROM users WHERE username = 'diogo';
+      const todos: Todo[] = []
+
+      const user = await this.usersCollection.ref.where('email', '==', email).get().then(users => {
+        return users.docs[0]
+      })
+
+      if (user == undefined) {
 
         // criacao de um novo documento na colecao de usuarioa
         // a funcao doc te retorna a referencia para um documento na colecao a partir do seu UID
@@ -51,12 +56,26 @@ export class AuthService {
         })
 
         credentials.user?.sendEmailVerification()
-      })
-    )
+      }
+    })
+  }
+
+  signUpWithEmailAndPassword(email: string, password: string) {
+    // O from transformara a Promise que o metodo createUserWithEmailAndPassword retorna em um Observable
+    // O metodo createUserWithEmailAndPassword cadastra um novo usuario no firebase pelo e-mail e senha
+    return from(this.authentication.createUserWithEmailAndPassword(email, password))
+      .pipe(this.saveUserData())
   }
 
   signInWithEmailAndPassword(email: string, password: string) {
     return from(this.authentication.signInWithEmailAndPassword(email, password))
+  }
+
+  signInWithGoogle() {
+    const googleProvider = new GoogleAuthProvider()
+
+    return from(this.authentication.signInWithPopup(googleProvider))
+      .pipe(this.saveUserData())
   }
 
   signOut() {
